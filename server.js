@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const User = require('./models/user')
+const User = require('./models/user');
 
 app.use(cors());
 app.use(express.static('public'));
@@ -14,7 +14,6 @@ app.get('/', (req, res) => {
 });
 
 app.post('/api/exercise/new-user', (req, res) => {
-  console.log(req.body);
     const { body } = req;
     const user = new User({
       username: body.username,
@@ -24,6 +23,14 @@ app.post('/api/exercise/new-user', (req, res) => {
       res.status(200).json(result);
     })
 });
+
+app.get('/api/exercise/users', (req, res) => {
+    User.find()
+    .then(users => {
+        console.log(users);
+        res.status(200).json(users)
+    })
+})
 
 
 

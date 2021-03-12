@@ -5,7 +5,7 @@ const url = process.env.MONGO_URI;
 
 mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true});
 
-const exerciseSchema = mongoose.Schema({
+const exerciseSchema = new mongoose.Schema({
     date: {
         type: Date,
         default: new Date()
@@ -38,4 +38,5 @@ userSchema.set('toJSON', {
 })
 
 const User = mongoose.model('User', userSchema);
-module.exports = User;
+const Exercise = mongoose.model('Exercise', exerciseSchema);
+module.exports = { User, Exercise };

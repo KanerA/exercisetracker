@@ -27,6 +27,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    log: [exerciseSchema],
 })
 
 userSchema.set('toJSON', {
@@ -38,5 +39,4 @@ userSchema.set('toJSON', {
 })
 
 const User = mongoose.model('User', userSchema);
-const Exercise = mongoose.model('Exercise', exerciseSchema);
-module.exports = { User, Exercise };
+module.exports = User;

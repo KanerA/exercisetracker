@@ -20,7 +20,11 @@ app.post('/api/exercise/new-user', (req, res) => {
     })
     user.save()
     .then(result => {
-      res.status(200).json(result);
+      const adjustedResult = {
+        username: result.username,
+        id: result.id,
+      }
+      res.status(200).json(adjustedResult);
     })
 });
 
@@ -28,7 +32,7 @@ app.get('/api/exercise/users', (req, res) => {
     User.find()
     .then(users => {
         console.log(users);
-        res.status(200).json(users)
+        res.status(200).json(users);
     })
 })
 

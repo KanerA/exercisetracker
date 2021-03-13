@@ -80,15 +80,37 @@ app.get('/api/exercise/log', (req, res) => {
     const resObject = {
       _id: user.id,
       username: user.username,
+      count: 0,
       log: user.log,
-      count: user.log.length,
+    }
+    if(from || to){
+      let fromEarliest = new Date(0);
+      let toLatest = new Date();
+      if(from){
+        fromEarliest = new Date(from);
+        resObject.from = new Date(from).toDateString();
+      }
+      if(to){
+        toLatest = new Date(to);
+        resObject.to = new Date(to).toDateString();
+      }
+      fromEarliest = Date.parse(fromEarliest);
+      toLatest = Date.parse(toLatest);
+      resObject.log = resObject.log.filter(exercise => {
+        const exerciseDate = Date.parse(exercise.date);
+        return exerciseDate >= fromEarliest && exerciseDate <= toLatest 
+      })
     }
     if(limit){
       resObject.log = resObject.log.slice(0, limit);
     }
+    resObject.count = resObject.log.length;
     res.json(resObject);
-
   }))
+  .catch(err => {
+    console.log(err);
+    res.status(500).json({ error: err })
+  })
 })
 
 

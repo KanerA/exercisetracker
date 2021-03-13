@@ -71,10 +71,15 @@ app.get('/api/exercise/users', (req, res) => {
 })
 
 app.get('/api/exercise/log', (req, res) => {
-  const id = req.query.userId;
-  User.find({_id: id }).select('-__v')
+  User.findById(req.query.userId).select('-__v')
   .then((user => {
-    res.json(user);
+    const resObject = {
+      _id: user.id,
+      username: user.username,
+      log: user.log,
+      count: user.log.length,
+    }
+    res.json(resObject);
   }))
 })
 

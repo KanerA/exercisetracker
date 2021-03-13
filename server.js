@@ -73,13 +73,21 @@ app.get('/api/exercise/users', (req, res) => {
 app.get('/api/exercise/log', (req, res) => {
   User.findById(req.query.userId).select('-__v')
   .then((user => {
+    const from = req.query.from;
+    const to = req.query.to;
+    const limit = req.query.limit;
+
     const resObject = {
       _id: user.id,
       username: user.username,
       log: user.log,
       count: user.log.length,
     }
+    if(limit){
+      resObject.log = resObject.log.slice(0, limit);
+    }
     res.json(resObject);
+
   }))
 })
 

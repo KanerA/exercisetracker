@@ -66,9 +66,16 @@ app.post('/api/exercise/add', (req, res) => {
 app.get('/api/exercise/users', (req, res) => {
     User.find({}).select(['-log', '-__v'])
     .then(users => {
-        console.log(users);
         res.status(200).json(users);
     })
+})
+
+app.get('/api/exercise/log', (req, res) => {
+  const id = req.query.userId;
+  User.find({_id: id }).select('-__v')
+  .then((user => {
+    res.json(user);
+  }))
 })
 
 

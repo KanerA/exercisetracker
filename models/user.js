@@ -6,10 +6,6 @@ const url = process.env.MONGO_URI;
 mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true});
 
 const exerciseSchema = new mongoose.Schema({
-    date: {
-        type: Date,
-        default: new Date()
-    },
     description: {
         type: String,
         required: true,
@@ -18,7 +14,8 @@ const exerciseSchema = new mongoose.Schema({
     duration: {
         type: Number,
         required: true,
-    }
+    },
+    date: String,
 
 })
 
@@ -30,13 +27,13 @@ const userSchema = new mongoose.Schema({
     log: [exerciseSchema],
 })
 
-userSchema.set('toJSON', {
-    transform: (document, returnedObject) => {
-      returnedObject.id = returnedObject._id.toString()
-      delete returnedObject._id
-      delete returnedObject.__v
-    }
-})
+// userSchema.set('toJSON', {
+//     transform: (document, returnedObject) => {
+//       returnedObject._id = returnedObject._id.toString()
+//       delete returnedObject.__v
+//     }
+// })
 
 const User = mongoose.model('User', userSchema);
-module.exports = User;
+const Exercise = mongoose.model('Exercise', exerciseSchema);
+module.exports = { User, Exercise };
